@@ -1,8 +1,12 @@
+
 // Load Images
 const images = {}
 images.player = new Image()
 images.player.src = '../images/cupHead.png'
-
+images.enemy = new Image()
+images.enemy.src = '../images/assyNero.png'
+images.background = new Image()
+images.background.src = '../images/floor/Brick_01.png'
 /**
  * CANVAS OBJECT
  * Decidí meter el canvas en un objeto porque así podemos llamar varias funciones
@@ -11,7 +15,7 @@ images.player.src = '../images/cupHead.png'
 const myGameArea = {
     canvas: document.createElement('canvas'),
     start: function () {
-        this.canvas.width = 640
+        this.canvas.width = 840
         this.canvas.height = 640
         this.context = this.canvas.getContext('2d')
         this.canvas.style.border = '3px solid #5075EB'
@@ -29,7 +33,8 @@ const myGameArea = {
     // Para el motor cuando el jugador gane o pierda (detiene el setInterval)
     stop: function () {
         clearInterval(this.interval)
-    }
+    },
+    frames: 0
 }
 // Creacion del Cuphead
 class Cuphead {
@@ -45,11 +50,13 @@ class Cuphead {
         this.playerFrameX = 0
         this.playerFrameY = 5
         // Coordenadas del elemento en el canvas 
-        this.playerX = 270
+        this.playerX = 600
         this.playerY = 270
         // Aceleración del cup
         this.dx = 0
         this.dy = 0
+        // Salud del player
+        this.health = 50
 
     }
     // Función para dibujar los recortes de imágen en el canvas
@@ -202,33 +209,179 @@ class Cuphead {
 
 // Creacion de los ataques chevere
 class Atacks {
-    constructor(width, height, x, y, direction){
+    constructor(width, height, x, y, direction, sX) {
         // Dirección del ataque
-        this.direction = direction
+        this.directionAtack = direction
         // Ancho y alto de la imagen recortada
         this.width = width
         this.height = height
+        // Posicion de la imagen recortada
+        this.sX = sX
+        this.sY = 1
         // Posición en el espácio del ataque
         this.x = x
         this.y = y
     }
-    moves(){
-        switch (this.dir) {
-            case value:
-                
-                break;
-        
-            default:
-                break;
+    drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
+        const ctx = myGameArea.context
+        ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
+    }
+    update() {
+        switch (this.directionAtack) {
+            case 'left':
+                this.drawSprite(images.player,
+                    this.width * this.sX,
+                    this.height * this.sY,
+                    this.width, this.height,
+                    this.x, this.y,
+                    this.width, this.height
+                )
+                if (this.sX > 4) this.sX--
+                else {
+                    this.sX = 7
+                }
+                this.x -= 25
+                break
+            case 'right':
+                this.drawSprite(images.player,
+                    this.width * this.sX,
+                    this.height * this.sY,
+                    this.width, this.height,
+                    this.x, this.y,
+                    this.width, this.height
+                )
+                if (this.sX < 3) this.sX++
+                else {
+                    this.sX = 0
+                }
+                this.x += 25
+                break
+            case 'north':
+                this.drawSprite(images.player,
+                    this.width * this.sX,
+                    this.height * this.sY,
+                    this.width, this.height,
+                    this.x, this.y,
+                    this.width, this.height
+                )
+                if (this.sX > 8) this.sX--
+                else this.sX = 11
+                this.y -= 25
+                break
+            case 'south':
+                this.drawSprite(images.player,
+                    this.width * this.sX,
+                    this.height * this.sY,
+                    this.width, this.height,
+                    this.x, this.y,
+                    this.width, this.height
+                )
+                if (this.sX > 12) this.sX--
+                else this.sX = 15
+                this.y += 25
+                break
         }
     }
+}
+
+// Classe del enemigo xD
+class AssyNero {
+    constructor() {
+        // Alto y ancho del recorte del source (sW, sH)
+        this.enemyWidth = 199
+        this.enemyHeight = 300
+        // Posición del cuadro a recortar
+        this.enemyFrameX = 0
+        this.enemyFrameY = 0
+        // Coordenadas del elemento en el canvas 
+        this.enemyX = -300
+        this.enemyY = 20
+        // Salud del AssyNero 
+        this.health = 30
+    }
+    // Función para dibujar los recortes de imágen en el canvas
+    drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
+        const ctx = myGameArea.context
+        ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
+    }
+    update() {
+        if (hitEnemy) {
+            this.enemyFrameX = 7
+            this.drawSprite(images.enemy,
+                this.enemyWidth * this.enemyFrameX,
+                this.enemyHeight * this.enemyFrameY,
+                this.enemyWidth, this.enemyHeight,
+                this.enemyX, this.enemyY,
+                this.enemyWidth * 2, this.enemyHeight * 2
+            )
+            hitEnemy = false
+        } else {
+            if (myGameArea.frames > 24 * 1.5) {
+                if (this.enemyX < -30) {
+                    if (this.enemyFrameX < 6) this.enemyFrameX++
+                    else {
+                        this.enemyFrameX = 0
+                    }
+                    this.drawSprite(images.enemy,
+                        this.enemyWidth * this.enemyFrameX,
+                        this.enemyHeight * this.enemyFrameY,
+                        this.enemyWidth, this.enemyHeight,
+                        this.enemyX, this.enemyY,
+                        this.enemyWidth * 2, this.enemyHeight * 2
+                    )
+                    this.enemyX += 10
+                } else {
+                    if (this.enemyFrameX < 6) this.enemyFrameX++
+                    else {
+                        this.enemyFrameX = 0
+                    }
+                    this.drawSprite(images.enemy,
+                        this.enemyWidth * this.enemyFrameX,
+                        this.enemyHeight * this.enemyFrameY,
+                        this.enemyWidth, this.enemyHeight,
+                        this.enemyX, this.enemyY,
+                        this.enemyWidth * 2, this.enemyHeight * 2
+                    )
+                }
+            }
+        }
+        
+    }
+}
+
+// Creación del background
+// Objeto para loopear fondo
+let gameSpeed = 2
+const background = {
+    x1: 0,
+    x2: 840,
+    y: 0,
+    width: 840,
+    height: 640
+}
+const handleBackground = () => {
+    if (myGameArea.frames > 24 * 3.5) {
+        if (background.x1 <= gameSpeed - background.width) background.x1 = background.width
+        else background.x1 -= gameSpeed
+        if (background.x2 <= gameSpeed - background.width) background.x2 = background.width
+        else background.x2 -= gameSpeed
+    }
+    myGameArea.context.drawImage(images.background, background.x1, background.y, background.width, background.height)
+    myGameArea.context.drawImage(images.background, background.x2, background.y, background.width, background.height)
 }
 // Monitor del juego esta funcion se llama debtro del objeto del canvas
 // Esta funcion nos permite limpiar y actualizar el area de juego y los elementos dentro de esta que se actualiza cada 20 ms por el set interval
 const updateGameArea = () => {
     myGameArea.clear()
+    handleBackground()
     player.newPosition()
-    player.update()
+    if (myGameArea.frames > 24*3.5) {
+        player.playerX -= 2
+        player.update()
+    } else player.update()
+    enemy.update()
+    updateAtacks()
+    myGameArea.frames++
+    checkGameOver()
 }
 
-myGameArea.start()

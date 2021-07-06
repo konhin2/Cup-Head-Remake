@@ -2,7 +2,10 @@
 const player = new Cuphead()
 const startGameButton = document.getElementById('btn-start')
 
-
+const enemy = new AssyNero()
+// Sounds
+const soundTag = document.querySelector('#sounds')
+const hitEnemySound = document.querySelector('#hit-enemy')
 
 // Movimiento de Cuphead en lógica
 document.addEventListener('keydown', (event) => {
@@ -30,11 +33,31 @@ document.addEventListener('keydown', (event) => {
             player.playerFrameY = 6
             player.move = 'd'
             speedY()
+            break
         case 32:
-    }
+            newAtack()
+            soundTag.innerHTML = `<audio src="../sounds/hadouken.mp3" autoplay></audio>`
+            break
+    } 
 })
 document.addEventListener('keyup', (event) => {
     player.dx = 0
     player.dy = 0
     player.move = 's'
+})
+
+// Start button
+const button = document.createElement('button')
+button.setAttribute('id', 'btn-start')
+const span = document.createElement('span')
+span.innerText = "Let's play"
+button.appendChild(span)
+const createButton = () => {
+    document.body.appendChild(button)
+}
+const musicTag = document.querySelector('#music')
+button.addEventListener('click', () => {
+    myGameArea.start() 
+    button.style.display = 'none'
+    musicTag.innerHTML = `<audio src="./sounds/botanic-panic.mp3" autoplay loop></audio>`
 })
