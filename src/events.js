@@ -1,12 +1,14 @@
 // EVENTS
 const player = new Cuphead()
 const startGameButton = document.getElementById('btn-start')
-
+const health = new Health(player.health)
 const enemy = new AssyNero()
 // Sounds
 const soundTag = document.querySelector('#sounds')
 const hitEnemySound = document.querySelector('#hit-enemy')
-
+const hitCupSound = document.querySelector('#hit-cup')
+const flag = document.querySelector('#flag')
+const voice = document.querySelector('#voice')
 // Movimiento de Cuphead en lógica
 document.addEventListener('keydown', (event) => {
     switch (event.keyCode) {
@@ -59,5 +61,6 @@ const musicTag = document.querySelector('#music')
 button.addEventListener('click', () => {
     myGameArea.start() 
     button.style.display = 'none'
-    musicTag.innerHTML = `<audio src="./sounds/botanic-panic.mp3" autoplay loop></audio>`
+    voice.innerHTML = `<audio src="../sounds/voice.mp3" autoplay></audio>`
+    musicTag.innerHTML = `<audio src="../sounds/botanic-panic.mp3" autoplay loop></audio>`
 })

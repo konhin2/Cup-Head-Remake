@@ -1,4 +1,3 @@
-
 // Load Images
 const images = {}
 images.player = new Image()
@@ -7,6 +6,8 @@ images.enemy = new Image()
 images.enemy.src = '../images/assyNero.png'
 images.background = new Image()
 images.background.src = '../images/floor/Brick_01.png'
+images.health = new Image()
+images.health.src = '../images/health.png'
 /**
  * CANVAS OBJECT
  * Decidí meter el canvas en un objeto porque así podemos llamar varias funciones
@@ -56,7 +57,7 @@ class Cuphead {
         this.dx = 0
         this.dy = 0
         // Salud del player
-        this.health = 50
+        this.health = 10
 
     }
     // Función para dibujar los recortes de imágen en el canvas
@@ -297,7 +298,7 @@ class AssyNero {
         this.enemyX = -300
         this.enemyY = 20
         // Salud del AssyNero 
-        this.health = 30
+        this.health = 10
     }
     // Función para dibujar los recortes de imágen en el canvas
     drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
@@ -345,10 +346,33 @@ class AssyNero {
                 }
             }
         }
-        
+
     }
 }
-
+class Health {
+    constructor(health) {
+        this.health = health
+        this.width = 500
+        this.height = 140
+        this.frameX = 0
+        this.frameY = 0
+        this.x = 300
+        this.y = 0
+    }
+    drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
+        const ctx = myGameArea.context
+        ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
+    }
+    update() {
+        this.drawSprite(images.health,
+            this.width * this.frameX,
+            this.height * this.frameY,
+            this.width, this.height,
+            myGameArea.canvas.width - this.width / 3, this.y,
+            this.width / 3, this.height / 3
+        )
+    }
+}
 // Creación del background
 // Objeto para loopear fondo
 let gameSpeed = 2
@@ -374,8 +398,9 @@ const handleBackground = () => {
 const updateGameArea = () => {
     myGameArea.clear()
     handleBackground()
+    health.update()
     player.newPosition()
-    if (myGameArea.frames > 24*3.5) {
+    if (myGameArea.frames > 24 * 3.5) {
         player.playerX -= 2
         player.update()
     } else player.update()
@@ -383,5 +408,16 @@ const updateGameArea = () => {
     updateAtacks()
     myGameArea.frames++
     checkGameOver()
-}
 
+}
+// Winning and Lose
+const win = document.getElementById('win')
+const winning = () => {
+    win.style.display = 'inline'
+    myGameArea.canvas.style.display = 'none'
+}
+const loser = document.getElementById('lose')
+const lose = () => {
+    loser.style.display = 'inline'
+    myGameArea.canvas.style.display = 'none'
+}

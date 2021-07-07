@@ -40,10 +40,17 @@ const updateAtacks = () => {
 //     return pitagoras
 // }
 let hitEnemy = false
+let recoveryTime = 0
 const checkGameOver = () => {
-    if (player.playerX < enemy.enemyWidth * 2 + enemy.enemyX - player.playerWidth) {
-        console.log("loser")
-    }
+    if (recoveryTime === 0) {
+        if (player.playerX < enemy.enemyWidth * 2 + enemy.enemyX - player.playerWidth) {
+            hitCupSound.innerHTML = `<audio src="../sounds/hitCup.mp3" autoplay></audio>`
+            health.frameY++
+            player.health--
+            recoveryTime = 48
+        }
+    } else recoveryTime--
+    
     for (const playerAtack of myAtacks) {
         if (playerAtack.x > enemy.enemyX + enemy.enemyWidth * 2 - 100 ||
             playerAtack.x + playerAtack.width - 100 < enemy.enemyX ||
@@ -58,8 +65,14 @@ const checkGameOver = () => {
         }
     }
     if (enemy.health <= 0) {
+        flag.innerHTML = `<audio src="../sounds/cupWin.mp3" autoplay></audio>`
+        musicTag.innerHTML = `<audio src="../sounds/missionComplete.mp3" autoplay></audio>`
         myGameArea.stop()
-        console.log("You win")
-        
+        winning()
+    }
+    if (player.health <= 0) {
+        musicTag.innerHTML = `<audio src="../sounds/die.mp3" autoplay></audio>`
+        myGameArea.stop()
+        lose()
     }
 }
