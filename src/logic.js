@@ -43,7 +43,7 @@ let hitEnemy = false
 let recoveryTime = 0
 const checkGameOver = () => {
     if (recoveryTime === 0) {
-        if (player.playerX < enemy.enemyWidth * 2 + enemy.enemyX - player.playerWidth) {
+        if (player.playerX < (enemy.enemyWidth + enemy.enemyX)*2) {
             hitCupSound.innerHTML = `<audio src="../sounds/hitCup.mp3" autoplay></audio>`
             health.frameY++
             player.health--

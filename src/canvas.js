@@ -8,6 +8,7 @@ images.background = new Image()
 images.background.src = '../images/floor/Brick_01.png'
 images.health = new Image()
 images.health.src = '../images/health.png'
+
 /**
  * CANVAS OBJECT
  * Decidí meter el canvas en un objeto porque así podemos llamar varias funciones
@@ -347,6 +348,20 @@ class AssyNero {
             }
         }
 
+    }
+}
+class Soldier {
+    constructor()  {
+        this.health = true
+        // Alto y ancho del recorte del source (sW, sH)
+        this.width = 160
+        this.height = 160
+        // Posición del cuadro a recortar
+        this.frameX = 0
+        this.frameY = 0
+        // Coordenadas del elemento en el canvas 
+        this.x = 300
+        this.y = 300
     }
 }
 class Health {
