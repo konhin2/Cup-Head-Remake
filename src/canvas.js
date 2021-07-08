@@ -8,7 +8,12 @@ images.background = new Image()
 images.background.src = '../images/floor/Brick_01.png'
 images.health = new Image()
 images.health.src = '../images/health.png'
-
+images.soldier = new Image()
+images.soldier.src = '../images/soldier.png'
+images.hitPlayer = new Image()
+images.hitPlayer.src = '../images/hitCupHead.png'
+images.fire = new Image()
+images.fire.src = '../images/fire.png'
 /**
  * CANVAS OBJECT
  * Decidí meter el canvas en un objeto porque así podemos llamar varias funciones
@@ -67,39 +72,151 @@ class Cuphead {
         ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
     }
     update() {
-        switch (this.move) {
-            case 'i':
-                if (this.playerFrameX < 8) this.playerFrameX++
-                else {
-                    this.playerFrameX = 0
-                    this.playerFrameY = 7
-                    this.move = 'scary'
-                }
-                this.drawSprite(images.player,
-                    this.playerWidth * this.playerFrameX,
-                    this.playerHeight * this.playerFrameY,
-                    this.playerWidth, this.playerHeight,
-                    this.playerX, this.playerY,
-                    this.playerWidth, this.playerHeight
-                )
-                break
-            case 'scary':
-                if (this.playerFrameX < 9) this.playerFrameX++
-                else {
-                    this.move = 's'
-                }
-                this.drawSprite(images.player,
-                    this.playerWidth * this.playerFrameX,
-                    this.playerHeight * this.playerFrameY,
-                    this.playerWidth, this.playerHeight,
-                    this.playerX, this.playerY,
-                    this.playerWidth, this.playerHeight
-                )
-                break
-            case 's':
-                if (this.direction === 'north') {
-                    this.playerFrameY = 0
-                    this.playerFrameX = 0
+        if (recoveryTime > 0 && recoveryTime % 4 === 0) {
+            switch (this.move) {
+                case 'i':
+                    if (this.playerFrameX < 8) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 0
+                        this.playerFrameY = 7
+                        this.move = 'scary'
+                    }
+                    this.drawSprite(images.hitPlayer,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    break
+                case 'scary':
+                    if (this.playerFrameX < 9) this.playerFrameX++
+                    else {
+                        this.move = 's'
+                    }
+                    this.drawSprite(images.hitPlayer,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    break
+                case 's':
+                    if (this.direction === 'north') {
+                        this.playerFrameY = 0
+                        this.playerFrameX = 0
+                        this.drawSprite(images.hitPlayer,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    } else if (this.direction === 'south') {
+                        this.playerFrameY = 5
+                        this.playerFrameX = 0
+                        this.drawSprite(images.hitPlayer,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    } else if (this.direction === 'right') {
+                        this.playerFrameY = 3
+                        this.playerFrameX = 0
+                        this.drawSprite(images.hitPlayer,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    } else {
+                        this.playerFrameY = 2
+                        this.playerFrameX = 13
+                        this.drawSprite(images.hitPlayer,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    }
+                    break
+                case 'u':
+                    if (this.playerFrameX < 14) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 4
+                    }
+                    this.drawSprite(images.hitPlayer,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    if (this.playerY < -15) this.playerY
+                    else this.playerY += this.dy
+                    break
+                case 'd':
+                    if (this.playerFrameX < 12) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 0
+                    }
+                    this.drawSprite(images.hitPlayer,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    if (this.playerY + this.playerHeight - 10 > myGameArea.canvas.height) {
+                        this.playerY
+                    } else this.playerY += this.dy
+                    break
+                case 'r':
+                    if (this.playerFrameX < 13) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 3
+                    }
+                    this.drawSprite(images.hitPlayer,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    if (this.playerX + this.playerWidth - 19 > myGameArea.canvas.width) {
+                        this.playerX
+                    } else this.playerX += this.dx
+                    break
+                case 'l':
+                    if (this.playerFrameX > 0) this.playerFrameX--
+                    else {
+                        this.playerFrameX = 10
+                    }
+                    this.drawSprite(images.hitPlayer,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    if (this.playerX < -19) this.playerX
+                    else this.playerX += this.dx
+                    break
+            }
+        } else {
+            switch (this.move) {
+                case 'i':
+                    if (this.playerFrameX < 8) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 0
+                        this.playerFrameY = 7
+                        this.move = 'scary'
+                    }
                     this.drawSprite(images.player,
                         this.playerWidth * this.playerFrameX,
                         this.playerHeight * this.playerFrameY,
@@ -107,9 +224,12 @@ class Cuphead {
                         this.playerX, this.playerY,
                         this.playerWidth, this.playerHeight
                     )
-                } else if (this.direction === 'south') {
-                    this.playerFrameY = 5
-                    this.playerFrameX = 0
+                    break
+                case 'scary':
+                    if (this.playerFrameX < 9) this.playerFrameX++
+                    else {
+                        this.move = 's'
+                    }
                     this.drawSprite(images.player,
                         this.playerWidth * this.playerFrameX,
                         this.playerHeight * this.playerFrameY,
@@ -117,9 +237,55 @@ class Cuphead {
                         this.playerX, this.playerY,
                         this.playerWidth, this.playerHeight
                     )
-                } else if (this.direction === 'right') {
-                    this.playerFrameY = 3
-                    this.playerFrameX = 0
+                    break
+                case 's':
+                    if (this.direction === 'north') {
+                        this.playerFrameY = 0
+                        this.playerFrameX = 0
+                        this.drawSprite(images.player,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    } else if (this.direction === 'south') {
+                        this.playerFrameY = 5
+                        this.playerFrameX = 0
+                        this.drawSprite(images.player,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    } else if (this.direction === 'right') {
+                        this.playerFrameY = 3
+                        this.playerFrameX = 0
+                        this.drawSprite(images.player,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    } else {
+                        this.playerFrameY = 2
+                        this.playerFrameX = 13
+                        this.drawSprite(images.player,
+                            this.playerWidth * this.playerFrameX,
+                            this.playerHeight * this.playerFrameY,
+                            this.playerWidth, this.playerHeight,
+                            this.playerX, this.playerY,
+                            this.playerWidth, this.playerHeight
+                        )
+                    }
+                    break
+                case 'u':
+                    if (this.playerFrameX < 14) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 4
+                    }
                     this.drawSprite(images.player,
                         this.playerWidth * this.playerFrameX,
                         this.playerHeight * this.playerFrameY,
@@ -127,9 +293,14 @@ class Cuphead {
                         this.playerX, this.playerY,
                         this.playerWidth, this.playerHeight
                     )
-                } else {
-                    this.playerFrameY = 2
-                    this.playerFrameX = 13
+                    if (this.playerY < -15) this.playerY
+                    else this.playerY += this.dy
+                    break
+                case 'd':
+                    if (this.playerFrameX < 12) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 0
+                    }
                     this.drawSprite(images.player,
                         this.playerWidth * this.playerFrameX,
                         this.playerHeight * this.playerFrameY,
@@ -137,70 +308,42 @@ class Cuphead {
                         this.playerX, this.playerY,
                         this.playerWidth, this.playerHeight
                     )
-                }
-                break
-            case 'u':
-                if (this.playerFrameX < 14) this.playerFrameX++
-                else {
-                    this.playerFrameX = 4
-                }
-                this.drawSprite(images.player,
-                    this.playerWidth * this.playerFrameX,
-                    this.playerHeight * this.playerFrameY,
-                    this.playerWidth, this.playerHeight,
-                    this.playerX, this.playerY,
-                    this.playerWidth, this.playerHeight
-                )
-                if (this.playerY < -15) this.playerY
-                else this.playerY += this.dy
-                break
-            case 'd':
-                if (this.playerFrameX < 12) this.playerFrameX++
-                else {
-                    this.playerFrameX = 0
-                }
-                this.drawSprite(images.player,
-                    this.playerWidth * this.playerFrameX,
-                    this.playerHeight * this.playerFrameY,
-                    this.playerWidth, this.playerHeight,
-                    this.playerX, this.playerY,
-                    this.playerWidth, this.playerHeight
-                )
-                if (this.playerY + this.playerHeight - 10 > myGameArea.canvas.height) {
-                    this.playerY
-                } else this.playerY += this.dy
-                break
-            case 'r':
-                if (this.playerFrameX < 13) this.playerFrameX++
-                else {
-                    this.playerFrameX = 3
-                }
-                this.drawSprite(images.player,
-                    this.playerWidth * this.playerFrameX,
-                    this.playerHeight * this.playerFrameY,
-                    this.playerWidth, this.playerHeight,
-                    this.playerX, this.playerY,
-                    this.playerWidth, this.playerHeight
-                )
-                if (this.playerX + this.playerWidth - 19 > myGameArea.canvas.width) {
-                    this.playerX
-                } else this.playerX += this.dx
-                break
-            case 'l':
-                if (this.playerFrameX > 0) this.playerFrameX--
-                else {
-                    this.playerFrameX = 10
-                }
-                this.drawSprite(images.player,
-                    this.playerWidth * this.playerFrameX,
-                    this.playerHeight * this.playerFrameY,
-                    this.playerWidth, this.playerHeight,
-                    this.playerX, this.playerY,
-                    this.playerWidth, this.playerHeight
-                )
-                if (this.playerX < -19) this.playerX
-                else this.playerX += this.dx
-                break
+                    if (this.playerY + this.playerHeight - 10 > myGameArea.canvas.height) {
+                        this.playerY
+                    } else this.playerY += this.dy
+                    break
+                case 'r':
+                    if (this.playerFrameX < 13) this.playerFrameX++
+                    else {
+                        this.playerFrameX = 3
+                    }
+                    this.drawSprite(images.player,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    if (this.playerX + this.playerWidth - 19 > myGameArea.canvas.width) {
+                        this.playerX
+                    } else this.playerX += this.dx
+                    break
+                case 'l':
+                    if (this.playerFrameX > 0) this.playerFrameX--
+                    else {
+                        this.playerFrameX = 10
+                    }
+                    this.drawSprite(images.player,
+                        this.playerWidth * this.playerFrameX,
+                        this.playerHeight * this.playerFrameY,
+                        this.playerWidth, this.playerHeight,
+                        this.playerX, this.playerY,
+                        this.playerWidth, this.playerHeight
+                    )
+                    if (this.playerX < -19) this.playerX
+                    else this.playerX += this.dx
+                    break
+            }
         }
     }
     newPosition() {
@@ -299,7 +442,7 @@ class AssyNero {
         this.enemyX = -300
         this.enemyY = 20
         // Salud del AssyNero 
-        this.health = 10
+        this.health = 100
     }
     // Función para dibujar los recortes de imágen en el canvas
     drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
@@ -349,9 +492,17 @@ class AssyNero {
         }
 
     }
+    updateHealth() {
+        const ctx = myGameArea.context
+        ctx.lineWidth = 3
+        ctx.strokeStyle = '#191045'
+        ctx.fillStyle = '#8234E3'
+        ctx.strokeRect(20, 620, 700, 10)
+        ctx.fillRect(20, 620, this.health * 7, 10)
+    }
 }
 class Soldier {
-    constructor()  {
+    constructor(newY) {
         this.health = true
         // Alto y ancho del recorte del source (sW, sH)
         this.width = 160
@@ -360,8 +511,52 @@ class Soldier {
         this.frameX = 0
         this.frameY = 0
         // Coordenadas del elemento en el canvas 
-        this.x = 300
-        this.y = 300
+        this.x = myGameArea.canvas.width
+        this.y = newY
+    }
+    drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
+        const ctx = myGameArea.context
+        ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
+    }
+    update() {
+        this.drawSprite(images.soldier,
+            this.width * this.frameX,
+            this.height * this.frameY,
+            this.width, this.height,
+            this.x, this.y,
+            120, 120
+        )
+        if (this.frameX > 14) {
+            this.frameX = 0
+        } else this.frameX++
+        this.x -= 3
+    }
+}
+class Explotion {
+    constructor(x, y, width, height) {
+        this.frameX = 0
+        this.frameY = 0
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+    }
+    drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
+        const ctx = myGameArea.context
+        ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH)
+    }
+    update() {
+        this.drawSprite(images.fire,
+            this.width * this.frameX,
+            this.height * this.frameY,
+            this.width, this.height,
+            this.x, this.y,
+            120, 120
+        )
+        if (this.frameX < 22) {
+            this.frameX++
+        }
+        this.x -= 3
     }
 }
 class Health {
@@ -399,10 +594,15 @@ const background = {
     height: 640
 }
 const handleBackground = () => {
+    if (enemy.health === 33) {
+        gameSpeed = 8
+    } else if (enemy.health === 66) {
+        gameSpeed = 5
+    }
     if (myGameArea.frames > 24 * 3.5) {
-        if (background.x1 <= gameSpeed - background.width) background.x1 = background.width
+        if (background.x1 <= -background.width + gameSpeed) background.x1 = background.width
         else background.x1 -= gameSpeed
-        if (background.x2 <= gameSpeed - background.width) background.x2 = background.width
+        if (background.x2 <= -background.width + gameSpeed) background.x2 = background.width
         else background.x2 -= gameSpeed
     }
     myGameArea.context.drawImage(images.background, background.x1, background.y, background.width, background.height)
@@ -413,17 +613,18 @@ const handleBackground = () => {
 const updateGameArea = () => {
     myGameArea.clear()
     handleBackground()
-    health.update()
     player.newPosition()
     if (myGameArea.frames > 24 * 3.5) {
-        player.playerX -= 2
+        player.playerX -= gameSpeed
         player.update()
     } else player.update()
+    updateSoldiers()
     enemy.update()
+    enemy.updateHealth()
     updateAtacks()
+    health.update()
     myGameArea.frames++
     checkGameOver()
-
 }
 // Winning and Lose
 const win = document.getElementById('win')

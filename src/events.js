@@ -61,6 +61,6 @@ const musicTag = document.querySelector('#music')
 button.addEventListener('click', () => {
     myGameArea.start() 
     button.style.display = 'none'
-    voice.innerHTML = `<audio src="../sounds/voice.mp3" autoplay></audio>`
-    musicTag.innerHTML = `<audio src="../sounds/botanic-panic.mp3" autoplay loop></audio>`
+    // voice.innerHTML = `<audio src="../sounds/voice.mp3" autoplay></audio>`
+    // musicTag.innerHTML = `<audio src="../sounds/botanic-panic.mp3" autoplay loop></audio>`
 })
