@@ -14,6 +14,10 @@ images.hitPlayer = new Image()
 images.hitPlayer.src = '../images/hitCupHead.png'
 images.fire = new Image()
 images.fire.src = '../images/fire.png'
+images.score = new Image()
+images.score.src = '../images/score.png'
+images.missil = new Image()
+images.missil.src = '../images/missiles.png'
 /**
  * CANVAS OBJECT
  * Decidí meter el canvas en un objeto porque así podemos llamar varias funciones
@@ -26,7 +30,7 @@ const myGameArea = {
         this.canvas.height = 640
         this.context = this.canvas.getContext('2d')
         this.canvas.style.border = '3px solid #5075EB'
-        this.canvas.style.background = '#8AA5E6'
+        this.canvas.style.background = '#6B6B6B'
 
         // Insertamos el canvas al body del html, usamos insert before para que se anteponga a los scripts
         document.body.insertBefore(this.canvas, document.body.childNodes[0])
@@ -64,7 +68,8 @@ class Cuphead {
         this.dy = 0
         // Salud del player
         this.health = 10
-
+        // Score
+        this.score = 0
     }
     // Función para dibujar los recortes de imágen en el canvas
     drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
@@ -583,6 +588,7 @@ class Health {
         )
     }
 }
+
 // Creación del background
 // Objeto para loopear fondo
 let gameSpeed = 2
@@ -608,6 +614,25 @@ const handleBackground = () => {
     myGameArea.context.drawImage(images.background, background.x1, background.y, background.width, background.height)
     myGameArea.context.drawImage(images.background, background.x2, background.y, background.width, background.height)
 }
+// Score
+const updateScore = () => {
+    const ctx = myGameArea.context
+    ctx.drawImage(images.score, 370, 0, 413 / 3.5, 237 / 3.5)
+    if (player.score >= 100) {
+        ctx.font = "30pt Verdana"
+        ctx.fillStyle = "white"
+        ctx.fillText(player.score, 391, 50)
+    } else if (player.score >= 10) {
+        ctx.font = "30pt Verdana"
+        ctx.fillStyle = "white"
+        ctx.fillText(player.score, 404, 50)
+    } else {
+        ctx.font = "30pt Verdana"
+        ctx.fillStyle = "white"
+        ctx.fillText(player.score, 415, 50)
+    }
+
+}
 // Monitor del juego esta funcion se llama debtro del objeto del canvas
 // Esta funcion nos permite limpiar y actualizar el area de juego y los elementos dentro de esta que se actualiza cada 20 ms por el set interval
 const updateGameArea = () => {
@@ -623,6 +648,7 @@ const updateGameArea = () => {
     enemy.updateHealth()
     updateAtacks()
     health.update()
+    updateScore()
     myGameArea.frames++
     checkGameOver()
 }

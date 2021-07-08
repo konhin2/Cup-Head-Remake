@@ -86,6 +86,7 @@ const checkGameOver = () => {
             health.frameY++
             player.health--
             recoveryTime = 55
+            player.score = 0
         }
     } else recoveryTime--
     // Colision Ataque - Machine
@@ -99,6 +100,7 @@ const checkGameOver = () => {
             hitEnemySound.innerHTML = '<audio src="../sounds/hitEnemy.mp3" autoplay></audio>'
             hitEnemy = true
             enemy.health--
+            player.score++
         }
     }
     // Colision Ataque - Soldier
@@ -113,6 +115,7 @@ const checkGameOver = () => {
                 myAtacks.splice(myAtacks.indexOf(playerAtack), 1)
                 soldiersArray.splice(soldiersArray.indexOf(sold), 1)
                 hitEnemySound.innerHTML = '<audio src="../sounds/soldier.mp3" autoplay></audio>'
+                player.score++
             }
         }
     }
@@ -131,6 +134,7 @@ const checkGameOver = () => {
             health.frameY++
             player.health--
             recoveryTime = 55
+            player.score = 0
         } else recoveryTime--
     }
     // Winning and lose
