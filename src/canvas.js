@@ -447,7 +447,7 @@ class AssyNero {
         this.enemyX = -300
         this.enemyY = 20
         // Salud del AssyNero 
-        this.health = 100
+        this.health = 300
     }
     // Función para dibujar los recortes de imágen en el canvas
     drawSprite(img, sX, sY, sW, sH, dX, dY, dW, dH) {
@@ -503,7 +503,7 @@ class AssyNero {
         ctx.strokeStyle = '#191045'
         ctx.fillStyle = '#8234E3'
         ctx.strokeRect(20, 620, 700, 10)
-        ctx.fillRect(20, 620, this.health * 7, 10)
+        ctx.fillRect(20, 620, (this.health * 7)/3, 10)
     }
 }
 class Soldier {
@@ -600,9 +600,9 @@ const background = {
     height: 640
 }
 const handleBackground = () => {
-    if (enemy.health === 33) {
+    if (enemy.health === 100) {
         gameSpeed = 8
-    } else if (enemy.health === 66) {
+    } else if (enemy.health === 200) {
         gameSpeed = 5
     }
     if (myGameArea.frames > 24 * 3.5) {
@@ -657,9 +657,13 @@ const win = document.getElementById('win')
 const winning = () => {
     win.style.display = 'inline'
     myGameArea.canvas.style.display = 'none'
+    span.innerText = "Reset"
+    button.style.display = 'block'
 }
 const loser = document.getElementById('lose')
 const lose = () => {
     loser.style.display = 'inline'
     myGameArea.canvas.style.display = 'none'
+    span.innerText = "Reset"
+    button.style.display = 'block'
 }

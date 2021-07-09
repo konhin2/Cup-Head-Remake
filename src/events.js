@@ -3,6 +3,7 @@ const player = new Cuphead()
 const startGameButton = document.getElementById('btn-start')
 const health = new Health(player.health)
 const enemy = new AssyNero()
+
 // Sounds
 const soundTag = document.querySelector('#sounds')
 const hitEnemySound = document.querySelector('#hit-enemy')
@@ -63,4 +64,7 @@ button.addEventListener('click', () => {
     button.style.display = 'none'
     voice.innerHTML = `<audio src="../sounds/voice.mp3" autoplay></audio>`
     musicTag.innerHTML = `<audio src="../sounds/botanic-panic.mp3" autoplay loop></audio>`
+    myGameArea.canvas.style.display = 'block'
+    loser.style.display = 'none'
+    win.style.display = 'none'
 })

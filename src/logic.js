@@ -14,7 +14,7 @@ const speedY = () => {
     } else player.dy -= 5
 }
 // Atacks from the player
-const myAtacks = []
+let myAtacks = []
 const newAtack = () => {
     if (player.direction === 'left') {
         myAtacks.push(new Atacks(player.playerWidth, player.playerHeight, player.playerX, player.playerY, player.direction, 7))
@@ -34,7 +34,7 @@ const updateAtacks = () => {
 // Soldiers
 // Hago uso de los frames dentro de myGameArea para que cada cierto tiempo aparezca un nuevo soldado.
 // Genero un array para ir empujando los soldados soldados en este (osea las instancias de la clase soldiers)
-const soldiersArray = []
+let soldiersArray = []
 const updateSoldiers = () => {
     if (myGameArea.frames > 24 * 3.5) {
         switch (gameSpeed) {
@@ -143,10 +143,54 @@ const checkGameOver = () => {
         musicTag.innerHTML = `<audio src="../sounds/missionComplete.mp3" autoplay></audio>`
         myGameArea.stop()
         winning()
+        player.health = 10
+        player.playerX = 600
+        player.playerY = 270
+        player.move = 'i'
+        player.direction = 'south'
+        player.playerFrameX = 0
+        player.playerFrameY = 5
+        player.score = 0
+        health.frameX = 0
+        health.frameY = 0
+        myGameArea.frames = 0
+        enemy.health = 300
+        enemy.enemyFrameX = 0
+        enemy.enemyFrameY = 0
+        enemy.enemyX = -300
+        enemy.enemyY = 20
+        gameSpeed = 2
+        recoveryTime = 0
+        myAtacks = []
+        soldiersArray = []
+        explotiosArray = []
+        hitEnemy = false
     }
     if (player.health <= 0) {
         musicTag.innerHTML = `<audio src="../sounds/die.mp3" autoplay></audio>`
         myGameArea.stop()
         lose()
+        player.health = 10
+        player.playerX = 600
+        player.playerY = 270
+        player.move = 'i'
+        player.direction = 'south'
+        player.playerFrameX = 0
+        player.playerFrameY = 5
+        player.score = 0
+        health.frameX = 0
+        health.frameY = 0
+        myGameArea.frames = 0
+        enemy.health = 300
+        enemy.enemyFrameX = 0
+        enemy.enemyFrameY = 0
+        enemy.enemyX = -300
+        enemy.enemyY = 20
+        gameSpeed = 2
+        recoveryTime = 0
+        myAtacks = []
+        soldiersArray = []
+        explotiosArray = []
+        hitEnemy = false
     }
 }
