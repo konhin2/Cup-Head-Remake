@@ -633,7 +633,7 @@ const updateScore = () => {
     }
 
 }
-// Monitor del juego esta funcion se llama debtro del objeto del canvas
+// Monitor del juego esta funcion se llama dentro del objeto del canvas
 // Esta funcion nos permite limpiar y actualizar el area de juego y los elementos dentro de esta que se actualiza cada 20 ms por el set interval
 const updateGameArea = () => {
     myGameArea.clear()

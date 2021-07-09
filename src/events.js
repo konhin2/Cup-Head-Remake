@@ -59,6 +59,7 @@ const createButton = () => {
     document.body.appendChild(button)
 }
 const musicTag = document.querySelector('#music')
+const instructionsTag = document.querySelector('.instructions')
 button.addEventListener('click', () => {
     myGameArea.start() 
     button.style.display = 'none'
@@ -67,4 +68,5 @@ button.addEventListener('click', () => {
     myGameArea.canvas.style.display = 'block'
     loser.style.display = 'none'
     win.style.display = 'none'
+    instructionsTag.style.display = 'none'
 })
